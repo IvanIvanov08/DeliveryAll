@@ -1,20 +1,46 @@
+import 'dart:core';
+import 'dart:core';
+import 'dart:core';
+import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-List<String> names = ['Товары для Пушъ', "Зелёный чай", "Умный дом"]; // , "Умный дом", "Техника VINASTRO", "APS"];
+var names = ['Товары для Пушъ', "Зелёный чай", "Умный дом"]; // , "Умный дом", "Техника VINASTRO", "APS"];
 var products = [
-  [["Пистолет П-123", "1000 BDP Un", "https://kazan.mens-tema.ru/wa-data/public/shop/products/74/02/274/images/2395/2395.750x0.jpg"], ["Зубы вставные - 2 шт.", "2000 BDP Un", "https://kot-pes.com/wp-content/uploads/2019/03/post_5b80fe5d2a734.jpg"]],
+  [["Пистолет П-123", "1000 BDP Un", "https://m.zibero.ru/images/products/o/c/8/a/517782507_0.jpg"],
+    ["Зубы вставные - 2 шт.", "2000 BDP Un", "https://kot-pes.com/wp-content/uploads/2019/03/post_5b80fe5d2a734.jpg"]],
   [["Зелёный чай Oromy's Tea - 300 кг", "250 BDP Un", "https://podacha-blud.com/uploads/posts/2022-10/1665293914_1-podacha-blud-com-p-chainik-zelenii-chai-foto-1.jpg"]],
   [["Vinastro Tower Control", "100000000 BDP Un", "https://cdn.tripster.ru/thumbs2/cfbfcc66-e5c1-11e9-b046-025c4c6e7a28.800x600.jpg"]],
 ];
-var Card = [
 
-];
+var library = {
+  "Пистолет П-123": [
+    "1000 BDP Un",
+    "https://m.zibero.ru/images/products/o/c/8/a/517782507_0.jpg"
+  ],
+  "Зубы вставные - 2 шт.": [
+    "2000 BDP Un",
+    "https://kot-pes.com/wp-content/uploads/2019/03/post_5b80fe5d2a734.jpg"
+  ],
+  "Зелёный чай Oromy's Tea - 300 кг": [
+    "250 BDP Un",
+    "https://podacha-blud.com/uploads/posts/2022-10/1665293914_1-podacha-blud-com-p-chainik-zelenii-chai-foto-1.jpg"
+  ],
+  "Vinastro Tower Control": [
+    "100000000 BDP Un",
+    "https://cdn.tripster.ru/thumbs2/cfbfcc66-e5c1-11e9-b046-025c4c6e7a28.800x600.jpg"
+  ]
+};
+
+var Card = [];
+var basket = {};
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -57,20 +83,46 @@ class MyApp extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {},
+              Container(
+                color: Colors.green,
+                child: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {},
+                ),
               ),
 
-              IconButton(
-                icon: const Icon(Icons.home),
-                onPressed: () {},
+              Container(
+                color: Colors.red,
+                child: IconButton(
+                  icon: const Icon(Icons.home),
+                  onPressed: () {},
+                ),
               ),
 
-              IconButton(
-                icon: const Icon(Icons.monetization_on),
-                onPressed: () {},
+              Container(
+                color: Colors.blue,
+                child: IconButton(
+                  icon: const Icon(Icons.monetization_on),
+                  onPressed: () {},
+                ),
               ),
+
+              Container(
+                color: Colors.yellow,
+                child: IconButton(
+                  icon: const Icon(Icons.shopping_basket),
+                  onPressed: () {},
+                ),
+              ),
+
+              Container(
+                color: Colors.purpleAccent,
+                child: IconButton(
+                  icon: const Icon(Icons.person),
+                  onPressed: () {},
+                ),
+              ),
+
             ],
           )
         ),
@@ -291,54 +343,23 @@ class Product_Card extends StatelessWidget {
             Container(
               width: 400,
               height: 50,
-              color: Colors.yellow,
 
-              child: TextButton(
-                child: const Text("В карзину!", style: const TextStyle(fontSize: 20)),
-                onPressed: () {
-                  Card.insert(Card.length, [name, cost, uri]);
-                },
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                border: Border.all(color: Colors.green, width: 1),
+                color: Colors.green,
               ),
+
+              child: IconButton(
+                icon: const Icon(Icons.shopping_basket),
+                onPressed: () {
+                  basket[name] = [cost, uri];
+                },
+              )
             ),
           ],
         ),
       ),
     );
-  }
-}
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    checkLoginFile();
-  }
-
-  void checkLoginFile() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File('${dir.path}/login.txt');
-    if (await file.exists()) {
-      setState(() {
-        isLoggedIn = true;
-      });
-    } else {
-      setState(() {
-        isLoggedIn = false;
-      });
-    }
-  }
-
-  bool isLoggedIn = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return isLoggedIn ? Home() : Login();
   }
 }
